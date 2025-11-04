@@ -10,7 +10,8 @@
 
 struct libevdev_uinput;
 
-typedef struct {
+typedef struct
+{
   int socket;
   char ip[INET_ADDRSTRLEN];
   int port;
@@ -19,7 +20,8 @@ typedef struct {
   int commands_received;
 } Client;
 
-typedef struct {
+typedef struct
+{
   int server_socket;
   Client clients[MAX_CLIENTS];
   int client_count;
