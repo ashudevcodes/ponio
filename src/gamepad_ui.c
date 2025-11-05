@@ -10,7 +10,7 @@
 #define SCREEN_HEIGHT 600
 
 void
-draw_ui (void)
+draw_ui (const char *greet_as_name[])
 {
   BeginDrawing ();
   ClearBackground ((Color){ 20, 20, 30, 255 });
@@ -48,9 +48,8 @@ draw_ui (void)
 
           DrawText (TextFormat ("Client #%d", i + 1), 40, y_offset + 10, 18,
                     WHITE);
-          DrawText (TextFormat ("IP: %s:%d", server_state.clients[i].ip,
-                                server_state.clients[i].port),
-                    40, y_offset + 35, 16, LIGHTGRAY);
+          DrawText (TextFormat ("Name: %s", greet_as_name[i]), 40,
+                    y_offset + 35, 16, LIGHTGRAY);
           DrawText (TextFormat ("Commands: %d | Last: %s",
                                 server_state.clients[i].commands_received,
                                 server_state.clients[i].last_command[0]
@@ -76,6 +75,7 @@ draw_ui (void)
 int
 main (void)
 {
+
   pthread_mutex_init (&server_state.lock, NULL);
   server_state.server_running = 1;
 
@@ -93,6 +93,8 @@ main (void)
 
   int should_exit = 0;
 
+  const char *greet_names[] = { "Hola", "Namaste", "Bonjour", "Konnichiwa" };
+
   while (!WindowShouldClose () && !should_exit)
     {
       if (IsKeyPressed (KEY_Q))
@@ -101,7 +103,7 @@ main (void)
         }
       else
         {
-          draw_ui ();
+          draw_ui (greet_names);
         }
     }
 
