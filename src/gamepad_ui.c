@@ -33,7 +33,6 @@ draw_ui (void)
       TextFormat ("Total Commands Processed: %d", server_state.total_commands),
       40, 145, 20, SKYBLUE);
 
-  // Client list
   DrawText ("Connected Clients:", 20, 190, 22, WHITE);
 
   int y_offset = 220;
@@ -82,45 +81,45 @@ main (void)
 
   if (init_virtual_gamepad () < 0)
     {
-      fprintf (stderr, "Failed to initialize virtual gamepad\n");
+      fprintf (stderr, "Failed to initialize Ponio gamepad\n");
       return 1;
     }
 
   pthread_t srv_thread;
   pthread_create (&srv_thread, NULL, server_thread, NULL);
 
-  InitWindow (SCREEN_WIDTH, SCREEN_HEIGHT, "Virtual Gamepad Server");
+  InitWindow (SCREEN_WIDTH, SCREEN_HEIGHT, "Ponio Gamepad Server");
   SetTargetFPS (30);
 
-  while (!WindowShouldClose ())
+  int should_exit = 0;
+
+  while (!WindowShouldClose () && !should_exit)
     {
       if (IsKeyPressed (KEY_Q))
         {
-          cleanup_virtual_gamepad ();
-
-          pthread_mutex_destroy (&server_state.lock);
-
-          printf ("Server shut down cleanly\n");
-
-          CloseWindow ();
-
-          return 0;
+          should_exit = 1;
         }
-      draw_ui ();
+      else
+        {
+          draw_ui ();
+        }
     }
 
-  // Cleanup
   server_state.server_running = 0;
-  close (server_state.server_socket);
+
+  if (server_state.server_socket >= 0)
+    {
+      shutdown (server_state.server_socket, SHUT_RDWR);
+      close (server_state.server_socket);
+    }
 
   pthread_join (srv_thread, NULL);
 
-  CloseWindow ();
-
   cleanup_virtual_gamepad ();
-
   pthread_mutex_destroy (&server_state.lock);
 
   printf ("Server shut down cleanly\n");
+
+  CloseWindow ();
   return 0;
 }
