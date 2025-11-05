@@ -13,7 +13,6 @@
 #include "../include/gamepad_core.h"
 #include "../include/gamepad_types.h"
 
-// Global server state
 ServerState server_state = { 0 };
 
 int
@@ -29,7 +28,6 @@ init_virtual_gamepad (void)
   libevdev_set_id_product (dev, 0x5678);
   libevdev_set_id_version (dev, 1);
 
-  // button events
   libevdev_enable_event_type (dev, EV_KEY);
   libevdev_enable_event_code (dev, EV_KEY, BTN_A, NULL);
   libevdev_enable_event_code (dev, EV_KEY, BTN_B, NULL);
@@ -46,7 +44,6 @@ init_virtual_gamepad (void)
   libevdev_enable_event_code (dev, EV_KEY, BTN_DPAD_LEFT, NULL);
   libevdev_enable_event_code (dev, EV_KEY, BTN_DPAD_RIGHT, NULL);
 
-  // Joystick axis
   libevdev_enable_event_type (dev, EV_ABS);
 
   struct input_absinfo absinfo = { .value = 0,
@@ -61,7 +58,6 @@ init_virtual_gamepad (void)
   libevdev_enable_event_code (dev, EV_ABS, ABS_RX, &absinfo);
   libevdev_enable_event_code (dev, EV_ABS, ABS_RY, &absinfo);
 
-  // Create uinput device
   err = libevdev_uinput_create_from_device (dev, LIBEVDEV_UINPUT_OPEN_MANAGED,
                                             &server_state.uinput_dev);
 
@@ -78,7 +74,6 @@ init_virtual_gamepad (void)
   return 0;
 }
 
-// Process gamepad command
 void
 process_command (const char *command)
 {
@@ -94,7 +89,6 @@ process_command (const char *command)
   pthread_mutex_lock (&server_state.lock);
   server_state.total_commands++;
 
-  // Button commands
   if (strncmp (cmd, "BTN_", 4) == 0)
     {
       value = atoi (value_str);
@@ -153,7 +147,6 @@ process_command (const char *command)
       libevdev_uinput_write_event (server_state.uinput_dev, EV_SYN, SYN_REPORT,
                                    0);
     }
-  // D-Pad commands
   else if (strncmp (cmd, "DPAD_", 5) == 0)
     {
       value = atoi (value_str);
@@ -182,7 +175,6 @@ process_command (const char *command)
       libevdev_uinput_write_event (server_state.uinput_dev, EV_SYN, SYN_REPORT,
                                    0);
     }
-  // Joystick commands
   else if (strcmp (cmd, "LJOY") == 0 || strcmp (cmd, "RJOY") == 0)
     {
       if (sscanf (value_str, "%f,%f", &x, &y) == 2)
@@ -213,7 +205,6 @@ process_command (const char *command)
   pthread_mutex_unlock (&server_state.lock);
 }
 
-// Handle client connection
 void *
 handle_client (void *arg)
 {
@@ -269,7 +260,6 @@ handle_client (void *arg)
   return NULL;
 }
 
-// Server thread
 void *
 server_thread (void *arg)
 {
@@ -278,7 +268,6 @@ server_thread (void *arg)
   struct sockaddr_in server_addr, client_addr;
   socklen_t client_len = sizeof (client_addr);
 
-  // Create socket
   server_state.server_socket = socket (AF_INET, SOCK_STREAM, 0);
   if (server_state.server_socket < 0)
     {
@@ -286,12 +275,10 @@ server_thread (void *arg)
       return NULL;
     }
 
-  // Set socket options
   int opt = 1;
   setsockopt (server_state.server_socket, SOL_SOCKET, SO_REUSEADDR, &opt,
               sizeof (opt));
 
-  // Bind
   memset (&server_addr, 0, sizeof (server_addr));
   server_addr.sin_family = AF_INET;
   server_addr.sin_addr.s_addr = INADDR_ANY;
@@ -306,7 +293,6 @@ server_thread (void *arg)
       return NULL;
     }
 
-  // Listen
   if (listen (server_state.server_socket, MAX_CLIENTS) < 0)
     {
       perror ("Listen failed");
@@ -316,7 +302,6 @@ server_thread (void *arg)
 
   printf ("Server listening on port %d\n", PORT);
 
-  // Accept connections
   while (server_state.server_running)
     {
       int client_socket
@@ -377,7 +362,6 @@ server_thread (void *arg)
   return NULL;
 }
 
-// Cleanup virtual gamepad
 void
 cleanup_virtual_gamepad (void)
 {
