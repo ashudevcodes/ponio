@@ -43,7 +43,9 @@ jobs:
           VERSION=$(date +'%Y%m%d%H%M')  # Create a version based on current date/time
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           gh release create "$VERSION" ./build/ponio --title "$VERSION" --notes "${{ env.COMMITS }}"
-
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         with:
