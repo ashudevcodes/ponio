@@ -23,7 +23,7 @@ jobs:
       - name: Set up Compiler and Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libevdev-dev libx11-dev libglfw3 libglfw3-dev
+          sudo apt-get install -y build-essential libevdev-dev libx11-dev libglfw3 libglfw3-dev libxcursor-dev
           cd lib/raylib/src/ && make && cd ../../../  
 
       - name: Build with Makefile
