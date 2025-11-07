@@ -3,8 +3,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - main  # Change to your default branch if necessary
-
+      - main 
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,7 +14,8 @@ jobs:
 
       - name: Set up Compiler
         run: sudo apt-get install build-essential
-
+      - name: Install libevdev
+        run: sudo apt install libevdev-dev
       - name: Build with Makefile
         run: make
 
