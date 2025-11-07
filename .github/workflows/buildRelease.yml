@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,11 +12,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 1 
+          
+      - name: Initialize Submodules Manually
+        run: |
+          git submodule init
+          git submodule update --depth 1 --exclude ponio_android_controller
 
-      - name: Set up Compiler
-        run: sudo apt-get install build-essential
-      - name: Install libevdev
-        run: sudo apt install libevdev-dev
+      - name: Set up Compiler and Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libevdev-dev
+
       - name: Build with Makefile
         run: make
 
@@ -38,7 +47,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag: ${{ env.VERSION }}
-          files: ./build/ponio 
+          files: ./build/ponio
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
