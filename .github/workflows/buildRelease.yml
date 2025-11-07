@@ -59,7 +59,7 @@ jobs:
           GREETINGS=("Hola" "Namaste" "Bonjour" "Konnichiwa")
           RANDOM_GREETING=${GREETINGS[$RANDOM % ${#GREETINGS[@]}]}
           
-          gh release create "$VERSION" ./build/ponio --title "$RANDOM_GREETING Release" --notes "${{ env.COMMITS }}"
+          gh release create "$VERSION" ./build/ponio --title "$RANDOM_GREETING" --notes "${{ env.COMMITS }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
