@@ -18,7 +18,7 @@ jobs:
       - name: Initialize Submodules Manually
         run: |
           git submodule init
-          git submodule update --depth 1 --exclude ponio_android_controller
+          git submodule update --depth=1
 
       - name: Set up Compiler and Install Dependencies
         run: |
