@@ -51,10 +51,10 @@ jobs:
       - name: Create Version Tag
         id: create_tag
         run: |
-          VERSION=$(date +'%Y%m%d%H%M') 
+          VERSION=$(echo Fresh Air $(date +'%m/%Y %H:%M'))
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          git tag "$VERSION"
-          git push origin "$VERSION"
+          git tag "$VERSION"  # Create a tag with the version
+          git push origin "$VERSION"  # Push the tag to the repository
 
       - name: Create Release
         id: create_release
@@ -66,7 +66,6 @@ jobs:
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         with:
-          tag: ${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }} 
           files: ./build/ponio
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }} 
