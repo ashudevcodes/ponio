@@ -23,7 +23,8 @@ jobs:
       - name: Set up Compiler and Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libevdev-dev
+          sudo apt-get install -y build-essential libevdev-dev 
+          cd lib/raylib && make && cd ../../  
 
       - name: Build with Makefile
         run: make
