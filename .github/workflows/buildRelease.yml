@@ -38,10 +38,11 @@ jobs:
           cd lib/raylib/src && make && cd ../../../  
 
       - name: Build with Makefile
-        run: |
-          make
-          chmod +x ./build/ponio
-
+        run: make
+         
+      - name: Make Build executable
+        run: chmod +x ./build/ponio
+        
       - name: Get commit messages
         id: get_commits
         run: |
