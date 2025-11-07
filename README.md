@@ -18,12 +18,26 @@ Transform your Android phone into a wireless gamepad for Linux gaming! (ARCH Btw
 - Linux OS
 
 ## Usage
-
-1. Run the server
+1. Run the server 
 2. Open the mobile app
 3. Connect
 4. Game
 
+### Download
+
+> [!NOTE]
+> This will download **ponio** to the current directory and make the downloaded file executable
+
+```sh 
+
+curl -L -o ponio https://github.com/ashudevcodes/ponio/releases/latest/download/ponio
+chmod +x ponio
+
+```
+```sh
+# To run the server
+./ponio
+```
 ## Built With
 - [raylib](https://www.raylib.com/) - For UI rendering
 - [libevdev](https://www.freedesktop.org/software/libevdev/doc/latest/index.html) - To handle joystick command inputs
