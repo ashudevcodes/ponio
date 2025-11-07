@@ -16,12 +16,22 @@ Transform your Android phone into a wireless gamepad for Linux gaming! (ARCH Btw
 
 ## Requirements
 - Linux OS
+- Android device with Ponio app installed
+- Both devices connected to the same WiFi network
 
 ## Usage
 1. Run the server 
 2. Open the mobile app
 3. Connect
 4. Game
+
+## Use Cases
+
+- Couch gaming on your HTPC
+- Retro gaming with emulators
+- Playing story-driven games from your couch
+- Testing games with controller input
+- Gaming when you don't have a physical gamepad handy
 
 ### Download
 
@@ -44,3 +54,15 @@ chmod +x ponio
 
 ## Contributing
 Got ideas? Cool. Issues? Sure. Pull requests? Why not
+
+## 📝 License
+
+[MIT](./LICENSE)
+
+## 🔗 Links
+
+- [Ponio Android App](https://github.com/ashudevcodes/ponio_android_controller)
+
+---
+
+**Made with ❤️ for the Linux gaming community**
