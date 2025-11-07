@@ -39,9 +39,6 @@ jobs:
 
       - name: Build with Makefile
         run: make
-         
-      - name: Make Build executable
-        run: chmod +x ./build/ponio
         
       - name: Get commit messages
         id: get_commits
