@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   build:
@@ -11,9 +11,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 1 
+          fetch-depth: 1
           
       - name: Initialize Submodules Manually
         run: |
@@ -35,7 +35,7 @@ jobs:
                                   libxinerama-dev \
                                   libwayland-dev \
                                   libxkbcommon-dev
-          cd lib/raylib/src/ && make && cd ../../../  
+          cd lib/raylib/src && make && cd ../../../  
 
       - name: Build with Makefile
         run: make
@@ -43,29 +43,24 @@ jobs:
       - name: Get commit messages
         id: get_commits
         run: |
-          COMMITS=$(git log --oneline $(git describe --tags --abbrev=0)..HEAD)
-          echo "COMMITS<<EOF" >> $GITHUB_ENV
-          echo "$COMMITS" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          COMMITS=$(git log --oneline $(git describe --tags --abbrev=0)..HEAD || git log -1 --oneline)
+          echo "COMMITS=$COMMITS" >> $GITHUB_ENV
 
-      - name: Create Release
-        id: create_release
+      - name: Create Release with Random Greeting
+        id: release
         run: |
           VERSION=$(date +'%Y%m%d_%H%M')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          git tag "$VERSION" 
+          git tag "$VERSION"
           git push origin "$VERSION"
-          
+
           GREETINGS=("Hola" "Namaste" "Bonjour" "Konnichiwa")
           RANDOM_GREETING=${GREETINGS[$RANDOM % ${#GREETINGS[@]}]}
-          
-          gh release create "$VERSION" ./build/ponio --title "$RANDOM_GREETING" --notes "${{ env.COMMITS }}"
+          echo "Random greeting: $RANDOM_GREETING"
+
+          # Create GitHub release with greeting as the title
+          gh release create "$VERSION" ./build/ponio \
+            --title $RANDOM_GREETING \
+            --notes "${COMMITS}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Upload Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.VERSION }} 
-          files: ./build/ponio
-          token: ${{ secrets.GITHUB_TOKEN }} 
