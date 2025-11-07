@@ -48,20 +48,20 @@ jobs:
           echo "$COMMITS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Create Version Tag
-        id: create_tag
-        run: |
-          VERSION=$(echo Fresh Air $(date +'%m/%Y %H:%M'))
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          git tag "$VERSION"  # Create a tag with the version
-          git push origin "$VERSION"  # Push the tag to the repository
-
       - name: Create Release
         id: create_release
         run: |
-          gh release create "$VERSION" ./build/ponio --title "$VERSION" --notes "${{ env.COMMITS }}"
+          VERSION=$(date +'%Y%m%d_%H%M')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          git tag "$VERSION" 
+          git push origin "$VERSION"
+          
+          GREETINGS=("Hola" "Namaste" "Bonjour" "Konnichiwa")
+          RANDOM_GREETING=${GREETINGS[$RANDOM % ${#GREETINGS[@]}]}
+          
+          gh release create "$VERSION" ./build/ponio --title "$RANDOM_GREETING Release" --notes "${{ env.COMMITS }}"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Upload Release
         uses: softprops/action-gh-release@v1
