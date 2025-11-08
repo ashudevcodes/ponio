@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
           
       - name: Initialize Submodules Manually
         run: |
@@ -39,28 +39,34 @@ jobs:
 
       - name: Build with Makefile
         run: make
-        
-      - name: Get commit messages
+
+      - name: Get commit messages since last tag
         id: get_commits
         run: |
-          COMMITS=$(git log --oneline $(git describe --tags --abbrev=0)..HEAD || git log -1 --oneline)
-          echo "COMMITS=$COMMITS" >> $GITHUB_ENV
+          # Find last tag (if none, start from beginning)
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --oneline)
+          else
+            COMMITS=$(git log --oneline ${LAST_TAG}..HEAD)
+          fi
+          echo "COMMITS<<EOF" >> $GITHUB_ENV
+          echo "$COMMITS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
-      - name: Create Release with Random Greeting
-        id: release
+      - name: Create GitHub Release with Random Greeting
         run: |
           VERSION=$(date +'%Y%m%d_%H%M')
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
           git tag "$VERSION"
           git push origin "$VERSION"
 
           GREETINGS=("Hola" "Namaste" "Bonjour" "Konnichiwa")
           RANDOM_GREETING=${GREETINGS[$RANDOM % ${#GREETINGS[@]}]}
-          echo "Random greeting: $RANDOM_GREETING"
 
-          # Create GitHub release with greeting as the title
+          echo "🎉 Creating release titled '$RANDOM_GREETING'"
+
           gh release create "$VERSION" ./build/ponio \
-            --title $RANDOM_GREETING \
+            --title "$RANDOM_GREETING" \
             --notes "${COMMITS}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
