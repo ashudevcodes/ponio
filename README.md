@@ -55,11 +55,11 @@ chmod +x ponio
 ## Contributing
 Got ideas? Cool. Issues? Sure. Pull requests? Why not
 
-## 📝 License
+## License
 
 [MIT](./LICENSE)
 
-## 🔗 Links
+## Links
 
 - [Ponio Android App](https://github.com/ashudevcodes/ponio_android_controller)
 
