@@ -57,7 +57,7 @@ Got ideas? Cool. Issues? Sure. Pull requests? Why not
 
 ## License
 
-[MIT](./LICENSE)
+- [MIT](./LICENSE)
 
 ## Links
 
