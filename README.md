@@ -52,16 +52,17 @@ chmod +x ponio
 - [raylib](https://www.raylib.com/) - For UI rendering
 - [libevdev](https://www.freedesktop.org/software/libevdev/doc/latest/index.html) - To handle joystick command inputs
 
-## Contributing
-Got ideas? Cool. Issues? Sure. Pull requests? Why not
-
 ## License
 
-- [MIT](./LICENSE)
+[MIT](./LICENSE)
 
 ## Links
 
-- [Ponio Android App](https://github.com/ashudevcodes/ponio_android_controller)
+[Ponio Android App](https://github.com/ashudevcodes/ponio_android_controller)
+
+## Contributing
+
+Got ideas? Cool. Issues? Sure. Pull requests? Why not
 
 ---
 
