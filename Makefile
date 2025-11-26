@@ -13,8 +13,8 @@ LIBS = -L$(RAYLIB_DIR) -l:libraylib.a -lm -lpthread -ldl -lrt -lX11 -levdev -I/u
 TARGET = ponio
 
 UI_SRC = $(SRC_DIR)/gamepad_ui.c
-CORE_SRC = $(SRC_DIR)/gamepad_core.c
-HEADERS = $(HEADERS_DIR)/gamepad_types.h $(HEADERS_DIR)/gamepad_core.h
+CORE_SRC = $(SRC_DIR)/gamepad_core.c $(SRC_DIR)/server_discovery.c
+HEADERS = $(HEADERS_DIR)/gamepad_types.h $(HEADERS_DIR)/gamepad_core.h $(HEADERS_DIR)/server_discovery.h
 
 all: $(TARGET)
 
