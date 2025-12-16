@@ -63,7 +63,3 @@ chmod +x ponio
 ## Contributing
 
 Got ideas? Cool. Issues? Sure. Pull requests? Why not
-
----
-
-**Made with ❤️ for the Linux gaming community**
