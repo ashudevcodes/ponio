@@ -11,6 +11,7 @@ CFLAGS = -Wall -Wextra -O2 -pthread -I$(RAYLIB_DIR)
 LIBS = -L$(RAYLIB_DIR) -l:libraylib.a -lm -lpthread -ldl -lrt -lX11 -levdev -I/usr/include/libevdev-1.0
 
 TARGET = ponio
+GDBTARGET = ponioGdb
 
 UI_SRC = $(SRC_DIR)/gamepad_ui.c
 CORE_SRC = $(SRC_DIR)/gamepad_core.c $(SRC_DIR)/server_discovery.c
@@ -21,6 +22,10 @@ all: $(TARGET)
 $(TARGET): $(CORE_SRC) $(UI_SRC) $(HEADERS)
 	mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)/$(TARGET) $(CORE_SRC) $(UI_SRC) $(LIBS)
+
+gdb:$(CORE_SRC) $(UI_SRC) $(HEADERS)
+	mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) -ggdb -o $(BUILD_DIR)/$(GDBTARGET) $(CORE_SRC) $(UI_SRC) $(LIBS)
 
 clean:
 	rm -r $(BUILD_DIR)
