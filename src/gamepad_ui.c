@@ -49,7 +49,7 @@ draw_ui (const char *greet_as_name[])
 
           DrawText (TextFormat ("Client #%d - %s", i + 1, greet_as_name[i]),
                     40, y_offset + 10, 18, WHITE);
-          DrawText (TextFormat ("IP: %s:%d", server_state.clients[i].ip,
+          DrawText (TextFormat ("Local IP and Port: %s:%d", server_state.clients[i].ip,
                                 server_state.clients[i].port),
                     40, y_offset + 35, 16, LIGHTGRAY);
           DrawText (TextFormat ("Commands: %d | Last: %s",
