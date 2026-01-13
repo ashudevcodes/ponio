@@ -40,28 +40,29 @@ draw_ui (const char *greet_as_name[])
   pthread_mutex_lock (&server_state.lock);
 
   for (int i = 0; i < MAX_CLIENTS; i++)
-    {
-      if (server_state.clients[i].active)
-        {
-          Color box_color = (Color){ 50, 50, 70, 255 };
-          DrawRectangle (20, y_offset, SCREEN_WIDTH - 40, 80, box_color);
-          DrawRectangleLines (20, y_offset, SCREEN_WIDTH - 40, 80, BLUE);
+  {
+	if (server_state.clients[i].active)
+	{
+	  Color box_color = (Color){ 50, 50, 70, 255 };
+	  DrawRectangle (20, y_offset, SCREEN_WIDTH - 40, 80, box_color);
+	  DrawRectangleLines (20, y_offset, SCREEN_WIDTH - 40, 80, BLUE);
 
-          DrawText (TextFormat ("Client #%d - %s", i + 1, greet_as_name[i]),
-                    40, y_offset + 10, 18, WHITE);
-          DrawText (TextFormat ("Local IP and Port: %s:%d", server_state.clients[i].ip,
-                                server_state.clients[i].port),
-                    40, y_offset + 35, 16, LIGHTGRAY);
-          DrawText (TextFormat ("Commands: %d | Last: %s",
-                                server_state.clients[i].commands_received,
-                                server_state.clients[i].last_command[0]
-                                    ? server_state.clients[i].last_command
-                                    : "None"),
-                    40, y_offset + 58, 14, GRAY);
+	  DrawText (TextFormat ("Client #%d - %s", i + 1, greet_as_name[i]),
+			 40, y_offset + 10, 18, WHITE);
+	  DrawText (TextFormat ("Local IP and Port: %s:%d", server_state.clients[i].ip,
+						 server_state.clients[i].port),
+			 40, y_offset + 35, 16, LIGHTGRAY);
+	  DrawText (TextFormat ("Commands: %d | Last: %s",
+						 server_state.clients[i].commands_received,
+						 server_state.clients[i].last_command[0]
+						 ? server_state.clients[i].last_command
+						 : "None"),
+			 40, y_offset + 58, 14, GRAY);
 
-          y_offset += 90;
-        }
-    }
+	  y_offset += 90;
+	}
+	break;
+  }
 
   pthread_mutex_unlock (&server_state.lock);
 
