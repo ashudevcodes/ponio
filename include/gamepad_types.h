@@ -26,7 +26,7 @@ typedef struct
   Client clients[MAX_CLIENTS];
   int client_count;
   int total_commands;
-  int server_running;
+  bool server_running;
   struct libevdev_uinput *uinput_dev;
   pthread_mutex_t lock;
 } ServerState;

@@ -81,7 +81,7 @@ int
 main (void)
 {
   pthread_mutex_init (&server_state.lock, NULL);
-  server_state.server_running = 1;
+  server_state.server_running = true;
 
   if (init_virtual_gamepad () < 0)
     {
@@ -123,7 +123,7 @@ main (void)
     }
 
   printf ("\nShutting down server...\n");
-  server_state.server_running = 0;
+  server_state.server_running = false;
 
   if (server_state.server_socket >= 0)
     {
