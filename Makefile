@@ -4,11 +4,11 @@
 SRC_DIR = src
 BUILD_DIR= build
 HEADERS_DIR = include
-RAYLIB_DIR ?= lib/raylib/src
+RAYLIB_DIR ?= lib/raylib
 
 CC = gcc
-CFLAGS = -Wall -Wextra -O2 -pthread -I$(RAYLIB_DIR)
-LIBS = -L$(RAYLIB_DIR) -l:libraylib.a -lm -lpthread -ldl -lrt -lX11 -levdev -I/usr/include/libevdev-1.0
+CFLAGS = -Wall -Wextra -O2 -pthread -I$(RAYLIB_DIR)/include
+LIBS = -L$(RAYLIB_DIR)/lib -l:libraylib.a -lm -lpthread -ldl -lrt -lX11 -levdev -I/usr/include/libevdev-1.0
 
 TARGET = ponio
 GDBTARGET = ponioGdb

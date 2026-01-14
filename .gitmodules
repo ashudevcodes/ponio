@@ -1,7 +1,3 @@
-[submodule "raylib"]
-  path = lib/raylib
-  url = https://github.com/raysan5/raylib.git
-
 [submodule "ponio_android_controller"]
   path = android
   url = https://github.com/ashudevcodes/ponio_android_controller.git
