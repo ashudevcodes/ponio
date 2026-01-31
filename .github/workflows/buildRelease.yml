@@ -35,7 +35,6 @@ jobs:
                                   libxinerama-dev \
                                   libwayland-dev \
                                   libxkbcommon-dev
-          cd lib/raylib/src && make && cd ../../../  
 
       - name: Build with Makefile
         run: make
