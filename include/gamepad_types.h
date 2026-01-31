@@ -1,6 +1,7 @@
 #ifndef GAMEPAD_TYPES_H
 #define GAMEPAD_TYPES_H
 
+#include <stdbool.h>
 #include <netinet/in.h>
 #include <pthread.h>
 
