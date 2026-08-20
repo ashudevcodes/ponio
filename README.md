@@ -1,8 +1,8 @@
-<h1>Ponio</h1>
+# Ponio
 
 > A virtual gamepad Linux server for the [Ponio Mobile Application](https://github.com/ashudevcodes/ponio_android_controller)
 
-Transform your Android phone into a wireless gamepad for Linux gaming! (ARCH Btw)
+Turns your Android phone into a wireless gamepad ony support Linux enviornment (ARCH Btw)
 
 <kbd><img width="1919" height="1079" alt="ponioWithGame" src="https://github.com/user-attachments/assets/e1d49089-2e2d-4729-bc17-39385c2a4dd0" /></kbd>
 
@@ -15,15 +15,15 @@ Transform your Android phone into a wireless gamepad for Linux gaming! (ARCH Btw
 - **Zero latency** - Direct device-to-device connection = 0ms lag, no buffer
 
 ## Requirements
-- Linux OS
-- Android device with Ponio app installed
+- Linux Base OS
+- Android device with [Ponio](https://github.com/ashudevcodes/ponio_android_controller) app installed
 - Both devices connected to the same WiFi network
 
 ## Usage
-1. Run the server 
+1. Run the server
 2. Open the mobile app
 3. Connect
-4. Game
+4. Play
 
 ## Use Cases
 
@@ -38,18 +38,57 @@ Transform your Android phone into a wireless gamepad for Linux gaming! (ARCH Btw
 > [!NOTE]
 > This will download **ponio** to the current directory and make the downloaded file executable
 
-```sh 
+```sh
 
-curl -L -o ponio https://github.com/ashudevcodes/ponio/releases/latest/download/ponio
-chmod +x ponio
+curl -L -o ponio https://github.com/ashudevcodes/ponio/releases/latest/download/ponio.tar.gz
+
+tar -xzvf ponio.tar.gz
+cd ponio
 
 ```
+## Setup (one-time)
+
+Ponio create virtual gamepad via `/dev/uinput`. Kernel restrict this to root by default — one-time permission setup needed.
+
+Two modes:
+
+**Permanent (recommended)** — udev rule + group membership, survives reboot:
+```bash
+sudo ./install-uinput.sh --permanent
+```
+Log out and back in after (group change needs new session).
+
+**Temp** — quick test, resets on reboot, must rerun each restart:
+```bash
+sudo ./install-uinput.sh --temp
+```
+
 ```sh
 # To run the server
+chmod +x ponio
 ./ponio
+
 ```
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `Permission denied /dev/uinput` | Run setup script, log out/in |
+| Gamepad not detected in game | Check `evtest` list shows `ponio virtual gamepad` |
+| Setup script fails | Ensure run with `sudo`, not as root user directly |
+
+## Uninstall permissions
+
+```bash
+
+sudo rm /etc/udev/rules.d/99-ponio-uinput.rules
+sudo rm /etc/modules-load.d/ponio-uinput.conf
+sudo gpasswd -d $USER uinput
+
+`````
+
 ## Built With
-- [raylib](https://www.raylib.com/) - For UI rendering
 - [libevdev](https://www.freedesktop.org/software/libevdev/doc/latest/index.html) - To handle joystick command inputs
 
 ## License
